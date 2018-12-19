@@ -313,8 +313,21 @@ The following %-sequences are supported:
 (defun forge--format-topic-labels (topic)
   (when-let ((labels (closql--iref topic 'labels)))
     (mapconcat (pcase-lambda (`(,name ,color ,_desc))
-                 (propertize name 'face (list :box color)))
+                 (propertize name 'face
+                             (list :background color
+                                   :foreground
+                                   (if (> (forge--color-brightness color) 127)
+                                       "black"
+                                     "white"))))
                labels " ")))
+
+(defun forge--color-brightness (color)
+  ;; https://www.w3.org/TR/AERT/#color-contrast
+  (and (string-match "\\`#.\\{6\\}\\'" color)
+       (/ (+ (* (read (concat "#x" (substring color 1 3))) 299)
+             (* (read (concat "#x" (substring color 3 5))) 587)
+             (* (read (concat "#x" (substring color 5 7))) 114))
+          1000)))
 
 (defvar forge-topic-assignees-section-map
   (let ((map (make-sparse-keymap)))
