@@ -426,6 +426,18 @@ Prefer a topic over a branch and that over a commit."
           'confirm)
         (mapconcat #'car value ","))))))
 
+;;; Delete
+
+(defun forge-delete-post (post)
+  "Delete the POST at point."
+  (interactive
+   (if-let ((post (forge-post-at-point)))
+       (if (magit-y-or-n-p "Really delete the post at point? ")
+           (list post)
+         (user-error "Abort"))
+     (user-error "There is no post at point")))
+  (forge--delete-post (forge-get-repository post) post))
+
 ;;; Branch
 
 ;;;###autoload

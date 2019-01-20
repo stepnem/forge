@@ -490,6 +490,12 @@ repositories.
       ;; so Forge doesn't support them either.
       )))
 
+(cl-defmethod forge--delete-post ((_repo forge-github-repository) post)
+  (forge--ghub-delete post "/repos/:owner/:repo/issues/comments/:number" nil
+                      :callback (forge--set-field-callback)))
+
+;; TODO Delete any thing deleted on github from our db too.
+
 ;;; Utilities
 
 (cl-defun forge--ghub-get (obj resource

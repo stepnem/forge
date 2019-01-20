@@ -517,6 +517,9 @@ it is all or nothing.")
   (--filter (string-match-p "\\`\\.gitlab/merge_request_templates/.+\\.md\\'" it)
             (magit-revision-files (oref repo default-branch))))
 
+(cl-defmethod forge--delete-post ((repo forge-gitlab-repository) post)
+  )
+
 ;;; Utilities
 
 (cl-defun forge--glab-get (obj resource

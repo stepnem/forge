@@ -250,6 +250,15 @@ forges and hosts.  "
           (or buf (current-buffer))
         (forge-pull)))))
 
+(defun forge--wrap-callback (fn)
+  (let ((buf (current-buffer)))
+    (lambda (&rest _)
+      (with-current-buffer
+          (or buf (current-buffer))
+        (when t
+          (funcall fn))
+        (forge-pull)))))
+
 (defvar forge--mode-line-buffer nil)
 
 (defun forge--msg (repo echo done format &rest args)
