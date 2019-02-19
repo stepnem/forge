@@ -257,10 +257,10 @@ Prefer a topic over a branch and that over a commit."
 ;;; Visit
 
 ;;;###autoload
-(defun forge-visit-topic ()
+(defun forge-visit-topic (topic)
   "View the topic at point in a separate buffer."
   (interactive)
-  (if-let ((topic (forge-topic-at-point)))
+  (if topic
       (forge-visit topic)
     (user-error "There is no topic at point")))
 
